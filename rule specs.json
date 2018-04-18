@@ -297,7 +297,7 @@
     "linux:drivers:sk_buff": {
       "description": "...",
       "template": "Linux kernel modules",
-      "RSG": {"models": {"linux/block/sk_buff.c": {"bug kinds": [
+      "RSG": {"models": {"linux/drivers/sk_buff.c": {"bug kinds": [
         "linux:block:request::double get",
         "linux:block:request::double put",
         "linux:block:request::get at exit"
