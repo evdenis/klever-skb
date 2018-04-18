@@ -3,7 +3,7 @@
     "source": "linux-4.9.66",
     "configuration": "allmodconfig",
     "architecture": "x86_64",
-    "modules": ["all"],
+    "modules": ["drivers/net/"],
     "future_modules": ["drivers","fs","net","sound"]
   },
   "LKVOG strategy": {"name": "separate modules"},
@@ -11,6 +11,6 @@
   "rule specifications DB": "rule specs.json",
   "verifier profiles DB": "verifier profiles.json",
   "specifications set": "Linux 4.6.7",
-  "rule specifications": ["linux:drivers:skb"],
+  "rule specifications": ["linux:drivers:sk_buff"],
   "future rule specifications": ["generic:memory", "linux:alloc:irq", "linux:alloc:spinlock", "linux:drivers:base:class", "linux:drivers:base:dma-mapping", "linux:kernel:locking:mutex", "linux:drivers:clk1", "linux:drivers:clk2", "linux:kernel:locking:spinlock", "linux:usb:dev", "linux:usb:urb"]
 }
