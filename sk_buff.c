@@ -19,6 +19,8 @@
 #include <verifier/common.h>
 #include <verifier/nondet.h>
 
+#include <linux/skbuff.h>
+
 
 struct sk_buff;
 struct sk_buff *ldv_sk_buff;
