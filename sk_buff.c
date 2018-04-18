@@ -45,15 +45,22 @@ int ldv_sk_buff_put = 0;
 void ldv_net_sk_buff_put(struct sk_buff *sk)
 {
 	if (sk == ldv_sk_buff) {
-		ldv_sk_buff_put = 1;
+		ldv_sk_buff_put += 1;
 	}	
 }
 
+int ldv_copy_from_user = 0;
+
 void ldv_copy_from_user(struct sk_buff *sk, void *from, unsigned long n)
 {
-	/* ASSERT The put should be called before. */
 	if (sk == ldv_sk_buff) {
-		ldv_assert("linux:net::skb_put flag", ldv_sk_buff_put == 1);
+		ldv_copy_from_user += 1;
 	}
 }
 
+/* MODEL_FUNC Check that number of copy_from_user calls for a particular skb is not greater than skb_put calls */
+void ldv_check_final_state( void )
+{
+	/* ASSERT The number of call to copy_from_user calls should be in a relation with skb_put calls. */
+	ldv_assert("linux:usb:urb::more initial at exit", ldv_copy_from_user <= lsv_sk_buff_put);
+}
