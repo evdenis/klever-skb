@@ -41,14 +41,14 @@ struct sk_buff *ldv_net_alloc_sk_buff(unsigned int size)
 	if (ldv_undef_int()) {
 		ldv_sk_buff = skb;
 		skb->data = ldv_undef_ptr();
-		ldv_assume(skb->data);
+		ldv_assume(skb->data != NULL);
 
 		skb->len = size;
 		ldv_sk_buff_data_len = size;
 		ldv_sk_buff_data = skb->data;
 	}
 
-	return arbitrary_memory;
+	return skb;
 }
 
 int ldv_sk_buff_put = 0;
