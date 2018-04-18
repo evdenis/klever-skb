@@ -298,9 +298,7 @@
       "description": "...",
       "template": "Linux kernel modules",
       "RSG": {"models": {"linux/drivers/sk_buff.c": {"bug kinds": [
-        "linux:block:request::double get",
-        "linux:block:request::double put",
-        "linux:block:request::get at exit"
+        "linux:net::skb_put flag"
       ]}}}
     },
     "linux:drivers:base:class": {
