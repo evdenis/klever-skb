@@ -60,13 +60,13 @@ void ldv_net_sk_buff_put(struct sk_buff *sk)
 	}	
 }
 
-int ldv_copy_from_user = 0;
+int ldv_copy_from_user_cnt = 0;
 
 void ldv_copy_from_user(void *to, void *from, unsigned long n)
 {
 	if (ldv_sk_buff_data <= to && to < ldv_sk_buff_data + ldv_sk_buff_data_len) {
-		ldv_copy_from_user += 1;
+		ldv_copy_from_user_cnt += 1;
 		/* ASSERT The number of call to copy_from_user calls should be in a relation with skb_put calls. */
-		ldv_assert("linux:net::skb_put flag", ldv_copy_from_user <= ldv_sk_buff_put);
+		ldv_assert("linux:net::skb_put flag", ldv_copy_from_user_cnt <= ldv_sk_buff_put);
 	}
 }
