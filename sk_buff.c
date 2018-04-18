@@ -22,21 +22,30 @@
 
 struct sk_buff;
 struct sk_buff *ldv_sk_buff;
+unsigned int ldv_sk_buff_data_len;
+unsigned char *ldv_sk_buff_data;
 
 /* MODEL_FUNC Allocates memory for  request. */
-struct sk_buff *ldv_net_alloc_sk_buff(void)
+struct sk_buff *ldv_net_alloc_sk_buff(unsigned int size)
 {
 	/* NOTE Choose an arbitrary memory location. */
-	void *arbitrary_memory = ldv_undef_ptr();
+	struct sk_buff *skb = ldv_undef_ptr();
 	/* NOTE If memory is not available. */
-	if (!arbitrary_memory) {
+	if (!skb) {
 		/* NOTE Failed to allocate memory. */
-		return arbitrary_memory;
+		return skb;
 	}
 	/* NOTE The memory is successfully allocated. */
-	if (ldv_nondet_int()) {
-		ldv_sk_buff = arbitrary_memory;
+	if (ldv_undef_int()) {
+		ldv_sk_buff = skb;
+		skb->data = ldv_undef_ptr();
+		ldv_assume(skb->data);
+
+		skb->len = size;
+		ldv_sk_buff_data_len = size;
+		ldv_sk_buff_data = skb->data;
 	}
+
 	return arbitrary_memory;
 }
 
@@ -51,11 +60,11 @@ void ldv_net_sk_buff_put(struct sk_buff *sk)
 
 int ldv_copy_from_user = 0;
 
-void ldv_copy_from_user(struct sk_buff *sk, void *from, unsigned long n)
+void ldv_copy_from_user(void *to, void *from, unsigned long n)
 {
-	if (sk == ldv_sk_buff) {
+	if (ldv_sk_buff_data <= to && to < ldv_sk_buff_data + ldv_sk_buff_data_len) {
 		ldv_copy_from_user += 1;
 		/* ASSERT The number of call to copy_from_user calls should be in a relation with skb_put calls. */
-		ldv_assert("linux:net::skb_put flag", ldv_copy_from_user <= lsv_sk_buff_put);
+		ldv_assert("linux:net::skb_put flag", ldv_copy_from_user <= ldv_sk_buff_put);
 	}
 }
